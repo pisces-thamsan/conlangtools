@@ -320,7 +320,7 @@ button:hover {
 /* 已保存注释列表样式 */
 .saved-list {
     margin-top: 20px;
-    max-height: 200px;
+    max-height: 462px;
     overflow-y: auto;
     border: 1px solid #ddd;
     border-radius: 5px;
