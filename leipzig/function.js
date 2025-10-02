@@ -183,41 +183,7 @@ function deleteSavedItem(id) {
     }
 }
 
-// 导出为CSV功能
-document.getElementById('export-csv').addEventListener('click', function() {
-    const glossings = glossingManager.savedGlossings;
-    
-    if (glossings.length === 0) {
-        alert('没有保存的注释可以导出');
-        return;
-    }
-    
-    let csvContent = '序号,原文,注释,翻译,保存时间\n';
-    
-    glossings.forEach((glossing, index) => {
-        const row = [
-            index + 1,
-            `"${glossing.original}"`,
-            `"${glossing.gloss}"`,
-            `"${glossing.translation}"`,
-            `"${glossing.timestamp}"`
-        ].join(',');
-        csvContent += row + '\n';
-    });
-    
-    // 创建下载链接
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `leipzig_glossings_${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-});
-
-// 导出为Excel功能
+// 导出为Excel功能（保持莱比契格式）
 document.getElementById('export-excel').addEventListener('click', function() {
     const glossings = glossingManager.savedGlossings;
     
@@ -248,39 +214,90 @@ document.getElementById('export-excel').addEventListener('click', function() {
             </xml>
             <![endif]-->
             <style>
-                table { border-collapse: collapse; width: 100%; }
-                th, td { border: 1px solid black; padding: 8px; text-align: left; }
-                th { background-color: #f2f2f2; }
+                table { 
+                    border-collapse: collapse; 
+                    width: auto; 
+                    margin-bottom: 20px;
+                }
+                td { 
+                    border: 1px solid #ddd; 
+                    padding: 8px 12px; 
+                    text-align: center;
+                    min-width: 60px;
+                    white-space: nowrap;
+                }
+                .original-row { background-color: #f0f8ff; }
+                .gloss-row { background-color: #f9f9f9; }
+                .translation-row td { 
+                    text-align: center; 
+                    font-style: italic;
+                    background-color: #f0f0f0;
+                }
+                .glossing-table {
+                    margin-bottom: 10px;
+                }
+                .separator {
+                    height: 3px;
+                    background-color: #000;
+                }
+                .glossing-section {
+                    margin-bottom: 25px;
+                }
+                .glossing-info {
+                    font-size: 12px;
+                    color: #666;
+                    margin-bottom: 5px;
+                }
             </style>
         </head>
         <body>
             <h2>莱比契注释导出</h2>
             <p>导出时间: ${new Date().toLocaleString()}</p>
             <p>总计: ${glossings.length} 条注释</p>
-            <table>
-                <tr>
-                    <th>序号</th>
-                    <th>原文</th>
-                    <th>注释</th>
-                    <th>翻译</th>
-                    <th>保存时间</th>
-                </tr>
     `;
     
     glossings.forEach((glossing, index) => {
+        // 分割原文和注释为单词
+        const originalWords = glossing.original.split(/\s+/);
+        const glossWords = glossing.gloss.split(/\s+/);
+        
+        // 注释信息
         excelContent += `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${glossing.original}</td>
-                <td>${glossing.gloss}</td>
-                <td>${glossing.translation}</td>
-                <td>${glossing.timestamp}</td>
-            </tr>
+            <div class="glossing-section">
+                <div class="glossing-info">注释 ${index + 1} - 保存时间: ${glossing.timestamp}</div>
+                <table class="glossing-table">
         `;
+        
+        // 原文行
+        excelContent += '<tr class="original-row">';
+        originalWords.forEach(word => {
+            excelContent += `<td>${word}</td>`;
+        });
+        excelContent += '</tr>';
+        
+        // 注释行
+        excelContent += '<tr class="gloss-row">';
+        glossWords.forEach(word => {
+            excelContent += `<td>${word}</td>`;
+        });
+        excelContent += '</tr>';
+        
+        // 翻译行（合并单元格）
+        excelContent += `<tr class="translation-row">`;
+        excelContent += `<td colspan="${Math.max(originalWords.length, 1)}">${glossing.translation}</td>`;
+        excelContent += `</tr>`;
+        
+        excelContent += `</table>`;
+        
+        // 如果不是最后一条注释，添加分隔线
+        if (index < glossings.length - 1) {
+            excelContent += `<div class="separator"></div>`;
+        }
+        
+        excelContent += `</div>`;
     });
     
     excelContent += `
-            </table>
         </body>
         </html>
     `;
@@ -291,6 +308,60 @@ document.getElementById('export-excel').addEventListener('click', function() {
     const link = document.createElement('a');
     link.setAttribute('href', url);
     link.setAttribute('download', `leipzig_glossings_${new Date().toISOString().split('T')[0]}.xls`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+});
+
+// 导出为CSV功能（保持莱比契格式）
+document.getElementById('export-csv').addEventListener('click', function() {
+    const glossings = glossingManager.savedGlossings;
+    
+    if (glossings.length === 0) {
+        alert('没有保存的注释可以导出');
+        return;
+    }
+    
+    let csvContent = '';
+    
+    glossings.forEach((glossing, index) => {
+        // 分割原文和注释为单词
+        const originalWords = glossing.original.split(/\s+/);
+        const glossWords = glossing.gloss.split(/\s+/);
+        
+        // 添加注释序号和时间戳
+        csvContent += `"注释 ${index + 1} - ${glossing.timestamp}"\n`;
+        
+        // 原文行
+        let originalLine = '"原文"';
+        originalWords.forEach(word => {
+            originalLine += `,"${word}"`;
+        });
+        csvContent += originalLine + '\n';
+        
+        // 注释行
+        let glossLine = '"注释"';
+        glossWords.forEach(word => {
+            glossLine += `,"${word}"`;
+        });
+        csvContent += glossLine + '\n';
+        
+        // 翻译行
+        csvContent += `"翻译","${glossing.translation}"\n`;
+        
+        // 添加空行作为分隔（除非是最后一条）
+        if (index < glossings.length - 1) {
+            csvContent += '\n';
+        }
+    });
+    
+    // 创建下载链接
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `leipzig_glossings_${new Date().toISOString().split('T')[0]}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
