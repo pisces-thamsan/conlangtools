@@ -265,3 +265,94 @@ button:hover {
 .export-buttons button:last-child:hover {
     background: #2471a3;
 }
+
+/* 输出控制区域样式 */
+.output-controls {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border: 1px solid #eaeaea;
+}
+
+.storage-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.storage-controls button {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.3s;
+    width: auto;
+}
+
+.storage-controls button:hover {
+    background: #219653;
+}
+
+.storage-controls button:last-child {
+    background: #e74c3c;
+}
+
+.storage-controls button:last-child:hover {
+    background: #c0392b;
+}
+
+#saved-count {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-left: auto;
+    padding: 5px 10px;
+    background-color: #e8f4fc;
+    border-radius: 3px;
+}
+
+/* 已保存注释列表样式 */
+.saved-list {
+    margin-top: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fafafa;
+}
+
+.saved-item {
+    padding: 8px;
+    margin-bottom: 5px;
+    background-color: white;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.saved-item:hover {
+    background-color: #f0f8ff;
+}
+
+.saved-item-preview {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.delete-saved {
+    color: #e74c3c;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 5px;
+}
