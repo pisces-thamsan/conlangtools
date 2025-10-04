@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>造语工具箱 - 鱼窝</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap">
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&display=swap">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Times+New+Roman&display=swap">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        :root {
+            --primary-color: #9e3f31;
+            --secondary-color: #683119;
+            --accent-color: #f3722c;
+            --light-color: #fffafa;
+            --dark-color: #500000;
+            --success-color: #550000;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', 'Noto Serif SC', serif;
+        }
+
+        body {
+            background-color: #faf7f5;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        p a {
+            color: #9e3f31;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        p a:hover {
+            text-decoration: underline;
+            color: #683119;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #fffafa;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        #clt-header {
+            color: #d0d0ca;
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-top: -1.2rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            box-shadow: var(--box-shadow);
+            padding-left: 50px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #550000;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .category-btn {
+            background: #fffafa;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+        }
+
+        .category-btn:hover {
+            background: var(--primary-color);
+            color: #fffafa;
+        }
+
+        .category-btn.active {
+            background: var(--success-color);
+            color: #fffafa;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 3rem;
+        }
+
+        .tool-card {
+            background: #fffafa;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: #fffafa;
+            padding: 20px;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .tool-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-content h3 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .tool-content p {
+            color: #6c757d;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .tool-link {
+            display: block;
+            background: var(--primary-color);
+            color: #fffafa;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .tool-link:hover {
+            background: var(--secondary-color);
+        }
+
+        footer {
+            background: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .counter {
+            background: white;
+            color: var(--dark-color);
+            padding: 5px 15px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            box-shadow: var(--box-shadow);
+        }
+
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .categories {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-toolbox"></i> ConlangTools</h1>
+            <p id="clt-header">人&nbsp;&nbsp;&nbsp;造&nbsp;&nbsp;&nbsp;语&nbsp;&nbsp;&nbsp;言&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;具&nbsp;&nbsp;&nbsp;箱</p>
+            <p>1+ 免费在线工具，为语言设计者提供便利</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-box" placeholder="搜索工具...">
+        </div>
+
+        <div class="categories">
+            <button class="category-btn active" data-category="all">全部工具</button>
+            <button class="category-btn" data-category="developer">开发者工具</button>
+            <button class="category-btn" data-category="design">设计工具</button>
+            <button class="category-btn" data-category="content">内容创作</button>
+            <button class="category-btn" data-category="productivity">效率工具</button>
+            <button class="category-btn" data-category="utility">实用工具</button>
+        </div>
+
+        <div class="counter">已收录 <span id="tool-count">0</span> 个工具</div>
+
+        <div class="tools-grid" id="tools-container">
+            <!-- 工具卡片将通过JavaScript动态生成 -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>造语工具箱 &copy; 2025 - pisces-thamsan.鱼窝</p>
+            <p>持续更新中，欢迎推荐更多实用工具</p>
+            <p><a href="https://pisces-thamsan.github.io">鱼窝主页</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // 工具数据
+        const tools = [
+            {
+                name: "JSON格式化",
+                description: "在线格式化、验证和美化JSON数据",
+                category: "developer",
+                icon: "fas fa-code",
+                link: "https://jsonformatter.org"
+            },
+            {
+                name: "CSS渐变生成器",
+                description: "创建漂亮的CSS渐变背景",
+                category: "design",
+                icon: "fas fa-palette",
+                link: "https://cssgradient.io"
+            },
+            {
+                name: "正则表达式测试",
+                description: "在线测试和调试正则表达式",
+                category: "developer",
+                icon: "fas fa-terminal",
+                link: "https://regex101.com"
+            },
+            {
+                name: "Canva设计",
+                description: "在线图形设计平台，适合非设计师",
+                category: "design",
+                icon: "fas fa-paint-brush",
+                link: "https://canva.com"
+            },
+            {
+                name: "Unsplash图片",
+                description: "高质量免费图片资源库",
+                category: "content",
+                icon: "fas fa-images",
+                link: "https://unsplash.com"
+            },
+            {
+                name: "TinyPNG压缩",
+                description: "智能PNG和JPEG图片压缩",
+                category: "utility",
+                icon: "fas fa-file-image",
+                link: "https://tinypng.com"
+            },
+            {
+                name: "GitHub",
+                description: "代码托管和版本控制平台",
+                category: "developer",
+                icon: "fab fa-github",
+                link: "https://github.com"
+            },
+            {
+                name: "CodePen",
+                description: "在线代码编辑和前端开发环境",
+                category: "developer",
+                icon: "fab fa-codepen",
+                link: "https://codepen.io"
+            },
+            {
+                name: "Figma",
+                description: "协作式UI/UX设计工具",
+                category: "design",
+                icon: "fab fa-figma",
+                link: "https://figma.com"
+            },
+            {
+                name: "Grammarly",
+                description: "英文语法检查和写作助手",
+                category: "content",
+                icon: "fas fa-spell-check",
+                link: "https://grammarly.com"
+            },
+            {
+                name: "Trello",
+                description: "项目管理与团队协作工具",
+                category: "productivity",
+                icon: "fab fa-trello",
+                link: "https://trello.com"
+            },
+            {
+                name: "Notion",
+                description: "一体化工作空间，笔记、任务和数据库",
+                category: "productivity",
+                icon: "fas fa-sticky-note",
+                link: "https://notion.so"
+            },
+            {
+                name: "PDF24工具",
+                description: "免费的在线PDF处理工具集",
+                category: "utility",
+                icon: "fas fa-file-pdf",
+                link: "https://tools.pdf24.org"
+            },
+            {
+                name: "Remove.bg",
+                description: "AI背景移除工具，一键去除图片背景",
+                category: "design",
+                icon: "fas fa-user-circle",
+                link: "https://remove.bg"
+            },
+            {
+                name: "Coolors调色板",
+                description: "快速生成配色方案的调色板生成器",
+                category: "design",
+                icon: "fas fa-fill-drip",
+                link: "https://coolors.co"
+            },
+            {
+                name: "Carbon代码截图",
+                description: "创建漂亮的代码截图用于分享",
+                category: "developer",
+                icon: "fas fa-code",
+                link: "https://carbon.now.sh"
+            },
+            {
+                name: "Postman",
+                description: "API开发和测试平台",
+                category: "developer",
+                icon: "fas fa-paper-plane",
+                link: "https://postman.com"
+            },
+            {
+                name: "Google字体",
+                description: "免费开源字体库",
+                category: "design",
+                icon: "fas fa-font",
+                link: "https://fonts.google.com"
+            },
+            {
+                name: "Pexels视频",
+                description: "免费库存视频和素材",
+                category: "content",
+                icon: "fas fa-video",
+                link: "https://pexels.com/videos"
+            },
+            {
+                name: "Loom屏幕录制",
+                description: "简单易用的屏幕录制和视频消息工具",
+                category: "content",
+                icon: "fas fa-record-vinyl",
+                link: "https://loom.com"
+            }
+        ];
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function () {
+            const toolsContainer = document.getElementById('tools-container');
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const searchBox = document.querySelector('.search-box');
+            const toolCount = document.getElementById('tool-count');
+
+            // 显示所有工具
+            displayTools(tools);
+            toolCount.textContent = tools.length;
+
+            // 分类筛选功能
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // 更新活动按钮
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const category = this.getAttribute('data-category');
+                    filterTools(category);
+                });
+            });
+
+            // 搜索功能
+            searchBox.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+                const activeCategory = document.querySelector('.category-btn.active').getAttribute('data-category');
+
+                filterTools(activeCategory, searchTerm);
+            });
+
+            // 显示工具函数
+            function displayTools(toolsToDisplay) {
+                toolsContainer.innerHTML = '';
+
+                toolsToDisplay.forEach(tool => {
+                    const toolCard = document.createElement('div');
+                    toolCard.className = 'tool-card';
+                    toolCard.setAttribute('data-category', tool.category);
+
+                    toolCard.innerHTML = `
+                        <div class="tool-icon">
+                            <i class="${tool.icon}"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h3>${tool.name}</h3>
+                            <p>${tool.description}</p>
+                            <a href="${tool.link}" target="_blank" class="tool-link">使用工具</a>
+                        </div>
+                    `;
+
+                    toolsContainer.appendChild(toolCard);
+                });
+            }
+
+            // 筛选工具函数
+            function filterTools(category, searchTerm = '') {
+                let filteredTools = tools;
+
+                // 按分类筛选
+                if (category !== 'all') {
+                    filteredTools = filteredTools.filter(tool => tool.category === category);
+                }
+
+                // 按搜索词筛选
+                if (searchTerm) {
+                    filteredTools = filteredTools.filter(tool =>
+                        tool.name.toLowerCase().includes(searchTerm) ||
+                        tool.description.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                // 显示筛选结果
+                displayTools(filteredTools);
+                toolCount.textContent = filteredTools.length;
+            }
+        });
+    </script>
+</body>
+
+</html>
