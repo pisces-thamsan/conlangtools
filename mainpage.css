@@ -27,6 +27,7 @@ p a {
     color: #9e3f31;
     text-decoration: none;
     transition: var(--transition);
+    font-weight: bold;
 }
 
 p a:hover {
@@ -61,7 +62,6 @@ header p {
 
 #clt-header {
     color: #d0d0ca;
-    font-family: 'Noto Serif SC', serif;
     font-weight: 700;
     font-size: 0.8rem;
     margin-top: -1.2rem;
